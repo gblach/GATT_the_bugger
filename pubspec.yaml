@@ -1,0 +1,32 @@
+name: gatt_the_bugger
+description: GATT debugger
+version: 0.1.0
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  circle_wave_progress: ^0.0.4
+  device_info: ^0.4.2+2
+  flutter_ble_lib: ^2.2.3
+  grizzly_io: ^2.2.0
+  location: ^3.0.2
+  shared_preferences: ^0.5.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.7.5
+
+flutter:
+  uses-material-design: true
+  assets:
+    - vendors.csv
+    - services.csv
+    - characteristics.csv
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: 'assets/appicon.png'
