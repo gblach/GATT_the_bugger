@@ -1,5 +1,22 @@
 import 'package:flutter/material.dart';
 
+ThemeData app_theme() {
+  return ThemeData(
+    brightness: Brightness.light,
+    primarySwatch: Colors.indigo,
+    scaffoldBackgroundColor: Colors.grey[200],
+    textTheme: TextTheme(
+      button: TextStyle(fontSize: 15, color: Colors.white),
+    ),
+    cardTheme: CardTheme(color: Colors.white),
+    buttonTheme: ButtonThemeData(
+      height: 40,
+      minWidth: 100,
+      buttonColor: Colors.indigo[400],
+    ),
+  );
+}
+
 Widget infobar(BuildContext context, String left, [String right]) {
   TextStyle style = TextStyle(color: Theme.of(context).textTheme.caption.color);
 
