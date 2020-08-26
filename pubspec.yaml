@@ -8,11 +8,11 @@ dependencies:
   flutter:
     sdk: flutter
   circle_wave_progress: ^0.0.4
-  device_info: ^0.4.2+4
-  flutter_ble_lib: ^2.2.9
+  device_info: ^0.4.2+7
+  flutter_ble_lib: ^2.3.0
   grizzly_io: ^2.2.2
   location: ^3.0.2
-  shared_preferences: ^0.5.8
+  shared_preferences: ^0.5.10
 
 dev_dependencies:
   flutter_test:
