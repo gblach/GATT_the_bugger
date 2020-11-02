@@ -5,8 +5,8 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'package:location/location.dart';
-import 'srv_page.dart';
-import 'chr_page.dart';
+import 'srvc.dart';
+import 'chrc.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
@@ -26,8 +26,8 @@ class App extends StatelessWidget {
       title: 'GATT the bugger',
       home: Main(),
       routes: {
-        '/srv': (BuildContext context) => SrvPage(),
-        '/chr': (BuildContext context) => ChrPage(),
+        '/srvc': (BuildContext context) => Srvc(),
+        '/chrc': (BuildContext context) => Chrc(),
       },
       theme: app_theme(),
     );
@@ -152,7 +152,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       setState(() => _connection = Connection.discovering);
       await result.peripheral.discoverAllServicesAndCharacteristics();
 
-      Navigator.pushNamed(context, '/srv', arguments: result).whenComplete(() async {
+      Navigator.pushNamed(context, '/srvc', arguments: result).whenComplete(() async {
         _conn_sub?.cancel();
         if(await result.peripheral.isConnected()) {
           result.peripheral.disconnectOrCancelConnection();

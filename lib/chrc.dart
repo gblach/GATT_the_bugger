@@ -8,14 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
-class ChrPage extends StatefulWidget {
+class Chrc extends StatefulWidget {
   @override
-  _ChrPageState createState() => _ChrPageState();
+  _ChrcState createState() => _ChrcState();
 }
 
-class _ChrPageState extends State<ChrPage> {
+class _ChrcState extends State<Chrc> {
   ScanResult _result;
-  Characteristic _chr;
+  Characteristic _chrc;
   DataType _data_type = DataType.hex;
   StreamSubscription<Uint8List> _notify_sub;
   TextEditingController _write_ctrl = TextEditingController();
@@ -24,10 +24,10 @@ class _ChrPageState extends State<ChrPage> {
 
   @override
   Future<void> didChangeDependencies() async {
-    if(_result == null || _chr == null) {
+    if(_result == null || _chrc == null) {
       List args = ModalRoute.of(context).settings.arguments;
       _result = args[0];
-      _chr = args[1];
+      _chrc = args[1];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() => _data_type = DataType.values[prefs.getInt('data_type') ?? 0]);
@@ -62,15 +62,15 @@ class _ChrPageState extends State<ChrPage> {
 
     if(data.length > 0) {
       _result.peripheral.writeCharacteristic(
-          _chr.service.uuid, _chr.uuid,
-          data, _chr.isWritableWithResponse
+          _chrc.service.uuid, _chrc.uuid,
+          data, _chrc.isWritableWithResponse
       );
     }
   }
 
   Future<void> _on_read() async {
     CharacteristicWithValue data =
-      await _result.peripheral.readCharacteristic(_chr.service.uuid, _chr.uuid);
+      await _result.peripheral.readCharacteristic(_chrc.service.uuid, _chrc.uuid);
 
     if(_data_type == DataType.hex) {
       setState(() {
@@ -86,7 +86,7 @@ class _ChrPageState extends State<ChrPage> {
 
   Future<void> _on_notify() async {
     if(_notify_sub == null) {
-      _notify_sub = _chr.monitor().listen((Uint8List data) {
+      _notify_sub = _chrc.monitor().listen((Uint8List data) {
         if(_data_type == DataType.hex) {
           setState(() {
             _notify_ctrl.text = '';
@@ -116,23 +116,23 @@ class _ChrPageState extends State<ChrPage> {
   }
 
   Widget build_body() {
-    String service = service_lookup(_chr.service.uuid);
+    String service = service_lookup(_chrc.service.uuid);
     service = service != null ? '\n' + service : '';
-    String characteristic = characteristic_lookup(_chr.uuid);
+    String characteristic = characteristic_lookup(_chrc.uuid);
     characteristic = characteristic != null ? '\n' + characteristic : '';
 
     return Column(children: [
       build_switches(),
-      (_chr.isWritableWithResponse || _chr.isWritableWithoutResponse) ? build_write() : SizedBox(),
-      _chr.isReadable ? build_read() : SizedBox(),
-      (_chr.isNotifiable || _chr.isIndicatable) ? build_notify() : SizedBox(),
+      (_chrc.isWritableWithResponse || _chrc.isWritableWithoutResponse) ? build_write() : SizedBox(),
+      _chrc.isReadable ? build_read() : SizedBox(),
+      (_chrc.isNotifiable || _chrc.isIndicatable) ? build_notify() : SizedBox(),
       Expanded(child: SizedBox()),
       Divider(height: 0),
       Card(
         child: Column(children: [
-          infobar(context, 'Service:', _chr.service.uuid + service),
+          infobar(context, 'Service:', _chrc.service.uuid + service),
           Divider(height: 0),
-          infobar(context, 'Characteristic:', _chr.uuid + characteristic),
+          infobar(context, 'Characteristic:', _chrc.uuid + characteristic),
         ]),
         margin: EdgeInsets.all(0),
       ),

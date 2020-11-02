@@ -3,12 +3,12 @@ import 'package:flutter_ble_lib/flutter_ble_lib.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
-class SrvPage extends StatefulWidget {
+class Srvc extends StatefulWidget {
   @override
-  _SrvPageState createState() => _SrvPageState();
+  _SrvcState createState() => _SrvcState();
 }
 
-class _SrvPageState extends State<SrvPage> {
+class _SrvcState extends State<Srvc> {
   ScanResult _result;
   Map<Service,List<Characteristic>> _services = {};
 
@@ -24,8 +24,8 @@ class _SrvPageState extends State<SrvPage> {
     super.didChangeDependencies();
   }
 
-  void _goto_character(Characteristic chr) {
-    Navigator.pushNamed(context, '/chr', arguments: [_result, chr]);
+  void _goto_character(Characteristic chrc) {
+    Navigator.pushNamed(context, '/chrc', arguments: [_result, chrc]);
   }
 
   @override
@@ -58,24 +58,24 @@ class _SrvPageState extends State<SrvPage> {
       )
     ];
 
-    for(Characteristic chr in _services.values.elementAt(index - 1)) {
-      String characteristic = characteristic_lookup(chr.uuid);
+    for(Characteristic chrc in _services.values.elementAt(index - 1)) {
+      String characteristic = characteristic_lookup(chrc.uuid);
       characteristic = characteristic != null ? characteristic + '\n' : '';
 
       List<String> props = [];
-      if(chr.isWritableWithResponse) props.add('write');
-      if(chr.isWritableWithoutResponse) props.add('write without response');
-      if(chr.isReadable) props.add('read');
-      if(chr.isNotifiable) props.add('notify');
-      if(chr.isIndicatable) props.add('indicate');
+      if(chrc.isWritableWithResponse) props.add('write');
+      if(chrc.isWritableWithoutResponse) props.add('write without response');
+      if(chrc.isReadable) props.add('read');
+      if(chrc.isNotifiable) props.add('notify');
+      if(chrc.isIndicatable) props.add('indicate');
 
       tiles.add(ListTile(
-        title: Text(chr.uuid, style: TextStyle(fontSize: 15)),
+        title: Text(chrc.uuid, style: TextStyle(fontSize: 15)),
         subtitle: Text(characteristic + props.join(', '), style: TextStyle(height: 1.4)),
         trailing: Icon(Icons.chevron_right),
         isThreeLine: characteristic.length > 0,
         contentPadding: EdgeInsets.only(left: 28, right: 16),
-        onTap: () => _goto_character(chr),
+        onTap: () => _goto_character(chrc),
       ));
     }
 
