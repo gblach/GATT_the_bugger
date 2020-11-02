@@ -8,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
-enum DataType { hex, string }
-
 class ChrPage extends StatefulWidget {
   @override
   _ChrPageState createState() => _ChrPageState();
@@ -179,6 +177,7 @@ class _ChrPageState extends State<ChrPage> {
             Expanded(child: TextField(
               controller: _write_ctrl,
               style: TextStyle(fontFamily: 'monospace'),
+              inputFormatters: [HexFormatter(_data_type)],
             )),
             SizedBox(width: 12),
             RaisedButton(

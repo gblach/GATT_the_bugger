@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+enum DataType { hex, string }
 
 ThemeData app_theme() {
   return ThemeData(
@@ -46,4 +49,42 @@ Widget loader(String title, String subtitle) {
     margin: EdgeInsets.only(bottom: 80),
     shape: RoundedRectangleBorder(),
   ));
+}
+
+class HexFormatter extends TextInputFormatter {
+  RegExp filter = RegExp(r"[0-9a-fA-F]");
+  DataType data_type;
+
+  HexFormatter(this.data_type);
+
+  formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    if(this.data_type == DataType.hex) {
+      int len = newValue.text.length;
+      String last = len > 0 ? newValue.text.substring(len - 1) : '';
+
+      if(oldValue.text.length < newValue.text.length) {
+        if(! filter.hasMatch(last)) {
+          return TextEditingValue(
+            text: newValue.text.substring(0, len - 1),
+            selection: TextSelection.collapsed(offset: len - 1),
+          );
+        }
+        if(len % 3 == 0) {
+          return TextEditingValue(
+            text: newValue.text.substring(0, len - 1) + ' ' + newValue.text.substring(len - 1),
+            selection: TextSelection.collapsed(offset: len + 1),
+          );
+        }
+      } else if(oldValue.text.length > newValue.text.length) {
+        if(last == ' ') {
+          return TextEditingValue(
+            text: newValue.text.substring(0, len - 1),
+            selection: TextSelection.collapsed(offset: len - 1),
+          );
+        }
+      }
+    }
+
+    return newValue;
+  }
 }
