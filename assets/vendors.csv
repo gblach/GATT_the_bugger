@@ -58,7 +58,7 @@
 0x0039,Integrated System Solution Corp.
 0x003A,"Panasonic Corporation (formerly Matsushita Electric Industrial Co., Ltd.)"
 0x003B,Gennum Corporation
-0x003C,BlackBerry Limited (formerly Research In Motion)
+0x003C,BlackBerry Limited  (formerly Research In Motion)
 0x003D,"IPextreme, Inc."
 0x003E,"Systems and Chips, Inc"
 0x003F,"Bluetooth SIG, Inc"
@@ -90,7 +90,7 @@
 0x0059,Nordic Semiconductor ASA
 0x005A,EM Microelectronic-Marin SA
 0x005B,Ralink Technology Corporation
-0x005C,"Belkin International, Inc. "
+0x005C,"Belkin International, Inc."
 0x005D,Realtek Semiconductor Corporation
 0x005E,"Stonestreet One, LLC"
 0x005F,"Wicentric, Inc."
@@ -113,7 +113,7 @@
 0x0070,"Monster, LLC"
 0x0071,connectBlue AB
 0x0072,ShangHai Super Smart Electronics Co. Ltd.
-0x0073,Group Sense Ltd. 
+0x0073,Group Sense Ltd.
 0x0074,"Zomm, LLC"
 0x0075,Samsung Electronics Co. Ltd.
 0x0076,Creative Technology Ltd.
@@ -144,7 +144,7 @@
 0x008F,Telit Wireless Solutions GmbH (formerly Stollmann E+V GmbH)
 0x0090,"Funai Electric Co., Ltd."
 0x0091,Advanced PANMOBIL systems GmbH & Co. KG
-0x0092,"ThinkOptics, Inc. "
+0x0092,"ThinkOptics, Inc."
 0x0093,"Universal Electronics, Inc."
 0x0094,Airoha Technology Corp.
 0x0095,"NEC Lighting, Ltd."
@@ -296,7 +296,7 @@
 0x0127,Salutica Allied Solutions
 0x0128,GPSI Group Pty Ltd
 0x0129,Nimble Devices Oy
-0x012A,"Changzhou Yongse Infotech Co., Ltd."
+0x012A,"Changzhou Yongse Infotech  Co., Ltd."
 0x012B,SportIQ
 0x012C,TEMEC Instruments B.V.
 0x012D,Sony Corporation
@@ -314,7 +314,7 @@
 0x0139,Focus Systems Corporation
 0x013A,Tencent Holdings Ltd.
 0x013B,Allegion
-0x013C,"Murata Manufacturing Co., Ltd. "
+0x013C,"Murata Manufacturing Co., Ltd."
 0x013D,WirelessWERX
 0x013E,"Nod, Inc."
 0x013F,B&B Manufacturing Company
@@ -355,7 +355,7 @@
 0x0162,MADSGlobalNZ Ltd.
 0x0163,PCH International
 0x0164,"Qingdao Yeelink Information Technology Co., Ltd."
-0x0165,Milwaukee Tool (Formally Milwaukee Electric Tools) 
+0x0165,Milwaukee Tool (Formally Milwaukee Electric Tools)
 0x0166,MISHIK Pte Ltd
 0x0167,Ascensia Diabetes Care US Inc.
 0x0168,Spicebox LLC
@@ -370,7 +370,7 @@
 0x0171,"Amazon.com Services, LLC (formerly Amazon Fulfillment Service)"
 0x0172,Connovate Technology Private Limited
 0x0173,"Kocomojo, LLC"
-0x0174,Everykey Inc. 
+0x0174,Everykey Inc.
 0x0175,Dynamic Controls
 0x0176,SentriLock
 0x0177,I-SYST inc.
@@ -390,7 +390,7 @@
 0x0185,bel'apps LLC
 0x0186,CORE Lighting Ltd
 0x0187,Seraphim Sense Ltd
-0x0188,Unico RBC 
+0x0188,Unico RBC
 0x0189,Physical Enterprises Inc.
 0x018A,Able Trend Technology Limited
 0x018B,"Konica Minolta, Inc."
@@ -399,7 +399,7 @@
 0x018E,"Fitbit, Inc."
 0x018F,Fireflies Systems
 0x0190,Intelletto Technologies Inc.
-0x0191,FDK CORPORATION 
+0x0191,FDK CORPORATION
 0x0192,"Cloudleaf, Inc"
 0x0193,Maveric Automation LLC
 0x0194,Acoustic Stream Corporation
@@ -493,21 +493,21 @@
 0x01EC,Spreadtrum Communications Shanghai Ltd
 0x01ED,CuteCircuit LTD
 0x01EE,Valeo Service
-0x01EF,"Fullpower Technologies, Inc. "
+0x01EF,"Fullpower Technologies, Inc."
 0x01F0,KloudNation
 0x01F1,Zebra Technologies Corporation
-0x01F2,"Itron, Inc. "
+0x01F2,"Itron, Inc."
 0x01F3,The University of Tokyo
 0x01F4,UTC Fire and Security
 0x01F5,Cool Webthings Limited
 0x01F6,DJO Global
 0x01F7,Gelliner Limited
-0x01F8,"Anyka (Guangzhou) Microelectronics Technology Co, LTD "
+0x01F8,"Anyka (Guangzhou) Microelectronics Technology Co, LTD"
 0x01F9,Medtronic Inc.
 0x01FA,Gozio Inc.
 0x01FB,"Form Lifting, LLC"
 0x01FC,"Wahoo Fitness, LLC"
-0x01FD,Kontakt Micro-Location Sp. z o.o. 
+0x01FD,Kontakt Micro-Location Sp. z o.o.
 0x01FE,Radio Systems Corporation
 0x01FF,"Freescale Semiconductor, Inc."
 0x0200,Verifone Systems Pte Ltd. Taiwan Branch
@@ -520,7 +520,7 @@
 0x0207,STEMP Inc.
 0x0208,LumiGeek LLC
 0x0209,InvisionHeart Inc.
-0x020A,Macnica Inc. 
+0x020A,Macnica Inc.
 0x020B,Jaguar Land Rover Limited
 0x020C,"CoroWare Technologies, Inc"
 0x020D,"Simplo Technology Co., LTD"
@@ -541,7 +541,7 @@
 0x021C,Mobicomm Inc
 0x021D,Edamic
 0x021E,"Goodnet, Ltd"
-0x021F,Luster Leaf Products Inc
+0x021F,Luster Leaf Products  Inc
 0x0220,Manus Machina BV
 0x0221,Mobiquity Networks Inc
 0x0222,Praxis Dynamics
@@ -567,7 +567,7 @@
 0x0236,Pitpatpet Ltd
 0x0237,MSHeli s.r.l.
 0x0238,Trakm8 Ltd
-0x0239,"JIN CO, Ltd "
+0x0239,"JIN CO, Ltd"
 0x023A,Alatech Tehnology
 0x023B,"Beijing CarePulse Electronic Technology Co, Ltd"
 0x023C,Awarepoint
@@ -579,7 +579,7 @@
 0x0242,16Lab Inc
 0x0243,Masimo Corp
 0x0244,Iotera Inc
-0x0245,Endress+Hauser 
+0x0245,Endress+Hauser
 0x0246,"ACKme Networks, Inc."
 0x0247,FiftyThree Inc.
 0x0248,Parker Hannifin Corp
@@ -635,7 +635,7 @@
 0x027A,Ekomini inc.
 0x027B,DEFA AS
 0x027C,Aseptika Ltd
-0x027D,"HUAWEI Technologies Co., Ltd. "
+0x027D,"HUAWEI Technologies Co., Ltd."
 0x027E,"HabitAware, LLC"
 0x027F,ruwido austria gmbh
 0x0280,ITEC corporation
@@ -747,10 +747,10 @@
 0x02EA,Fujitsu Limited
 0x02EB,Ardic Technology
 0x02EC,"Delta Systems, Inc"
-0x02ED,HTC Corporation 
-0x02EE,"Citizen Holdings Co., Ltd. "
+0x02ED,HTC Corporation
+0x02EE,"Citizen Holdings Co., Ltd."
 0x02EF,SMART-INNOVATION.inc
-0x02F0,Blackrat Software 
+0x02F0,Blackrat Software
 0x02F1,"The Idea Cave, LLC"
 0x02F2,"GoPro, Inc."
 0x02F3,"AuthAir, Inc"
@@ -759,7 +759,7 @@
 0x02F6,Intemo Technologies
 0x02F7,"DreamVisions co., Ltd."
 0x02F8,Runteq Oy Ltd
-0x02F9,IMAGINATION TECHNOLOGIES LTD 
+0x02F9,IMAGINATION TECHNOLOGIES LTD
 0x02FA,CoSTAR TEchnologies
 0x02FB,Clarius Mobile Health Corp.
 0x02FC,"Shanghai Frequen Microelectronics Co., Ltd."
@@ -772,8 +772,8 @@
 0x0303,IACA electronique
 0x0304,"Proxy Technologies, Inc."
 0x0305,Swipp ApS
-0x0306,Life Laboratory Inc. 
-0x0307,"FUJI INDUSTRIAL CO.,LTD. "
+0x0306,Life Laboratory Inc.
+0x0307,"FUJI INDUSTRIAL CO.,LTD."
 0x0308,"Surefire, LLC"
 0x0309,Dolby Labs
 0x030A,Ellisys
@@ -784,101 +784,101 @@
 0x030F,Shortcut Labs
 0x0310,SGL Italia S.r.l.
 0x0311,PEEQ DATA
-0x0312,Ducere Technologies Pvt Ltd 
-0x0313,"DiveNav, Inc. "
+0x0312,Ducere Technologies Pvt Ltd
+0x0313,"DiveNav, Inc."
 0x0314,RIIG AI Sp. z o.o.
-0x0315,Thermo Fisher Scientific 
-0x0316,AG Measurematics Pvt. Ltd. 
-0x0317,"CHUO Electronics CO., LTD. "
-0x0318,Aspenta International 
-0x0319,Eugster Frismag AG 
-0x031A,Amber wireless GmbH 
-0x031B,HQ Inc 
-0x031C,Lab Sensor Solutions 
-0x031D,Enterlab ApS 
+0x0315,Thermo Fisher Scientific
+0x0316,AG Measurematics Pvt. Ltd.
+0x0317,"CHUO Electronics CO., LTD."
+0x0318,Aspenta International
+0x0319,Eugster Frismag AG
+0x031A,Amber wireless GmbH
+0x031B,HQ Inc
+0x031C,Lab Sensor Solutions
+0x031D,Enterlab ApS
 0x031E,"Eyefi, Inc."
-0x031F,MetaSystem S.p.A. 
-0x0320,"SONO ELECTRONICS. CO., LTD "
-0x0321,Jewelbots 
-0x0322,Compumedics Limited 
-0x0323,Rotor Bike Components 
-0x0324,"Astro, Inc. "
-0x0325,Amotus Solutions 
-0x0326,Healthwear Technologies (Changzhou)Ltd 
-0x0327,Essex Electronics 
+0x031F,MetaSystem S.p.A.
+0x0320,"SONO ELECTRONICS. CO., LTD"
+0x0321,Jewelbots
+0x0322,Compumedics Limited
+0x0323,Rotor Bike Components
+0x0324,"Astro, Inc."
+0x0325,Amotus Solutions
+0x0326,Healthwear Technologies (Changzhou)Ltd
+0x0327,Essex Electronics
 0x0328,Grundfos A/S
-0x0329,"Eargo, Inc. "
-0x032A,Electronic Design Lab 
-0x032B,ESYLUX 
+0x0329,"Eargo, Inc."
+0x032A,Electronic Design Lab
+0x032B,ESYLUX
 0x032C,"NIPPON SMT.CO.,Ltd"
-0x032D,BM innovations GmbH 
+0x032D,BM innovations GmbH
 0x032E,indoormap
-0x032F,OttoQ Inc 
-0x0330,North Pole Engineering 
+0x032F,OttoQ Inc
+0x0330,North Pole Engineering
 0x0331,3flares Technologies Inc.
-0x0332,Electrocompaniet A.S. 
+0x0332,Electrocompaniet A.S.
 0x0333,Mul-T-Lock
-0x0334,Corentium AS 
+0x0334,Corentium AS
 0x0335,Enlighted Inc
 0x0336,GISTIC
 0x0337,"AJP2 Holdings, LLC"
-0x0338,COBI GmbH 
-0x0339,"Blue Sky Scientific, LLC "
+0x0338,COBI GmbH
+0x0339,"Blue Sky Scientific, LLC"
 0x033A,"Appception, Inc."
-0x033B,Courtney Thorne Limited 
+0x033B,Courtney Thorne Limited
 0x033C,Virtuosys
-0x033D,TPV Technology Limited 
+0x033D,TPV Technology Limited
 0x033E,Monitra SA
-0x033F,"Automation Components, Inc. "
-0x0340,Letsense s.r.l. 
-0x0341,Etesian Technologies LLC 
-0x0342,GERTEC BRASIL LTDA. 
+0x033F,"Automation Components, Inc."
+0x0340,Letsense s.r.l.
+0x0341,Etesian Technologies LLC
+0x0342,GERTEC BRASIL LTDA.
 0x0343,Drekker Development Pty. Ltd.
-0x0344,Whirl Inc 
-0x0345,Locus Positioning 
-0x0346,"Acuity Brands Lighting, Inc "
-0x0347,Prevent Biometrics 
+0x0344,Whirl Inc
+0x0345,Locus Positioning
+0x0346,"Acuity Brands Lighting, Inc"
+0x0347,Prevent Biometrics
 0x0348,Arioneo
-0x0349,VersaMe 
-0x034A,Vaddio 
-0x034B,Libratone A/S 
-0x034C,"HM Electronics, Inc. "
+0x0349,VersaMe
+0x034A,Vaddio
+0x034B,Libratone A/S
+0x034C,"HM Electronics, Inc."
 0x034D,"TASER International, Inc."
-0x034E,SafeTrust Inc. 
-0x034F,Heartland Payment Systems 
-0x0350,Bitstrata Systems Inc. 
-0x0351,Pieps GmbH 
+0x034E,SafeTrust Inc.
+0x034F,Heartland Payment Systems
+0x0350,Bitstrata Systems Inc.
+0x0351,Pieps GmbH
 0x0352,"iRiding(Xiamen)Technology Co.,Ltd."
-0x0353,"Alpha Audiotronics, Inc. "
-0x0354,"TOPPAN FORMS CO.,LTD. "
-0x0355,"Sigma Designs, Inc. "
-0x0356,"Spectrum Brands, Inc. "
-0x0357,Polymap Wireless 
-0x0358,MagniWare Ltd. 
-0x0359,Novotec Medical GmbH 
-0x035A,Medicom Innovation Partner a/s 
-0x035B,Matrix Inc. 
-0x035C,Eaton Corporation 
+0x0353,"Alpha Audiotronics, Inc."
+0x0354,"TOPPAN FORMS CO.,LTD."
+0x0355,"Sigma Designs, Inc."
+0x0356,"Spectrum Brands, Inc."
+0x0357,Polymap Wireless
+0x0358,MagniWare Ltd.
+0x0359,Novotec Medical GmbH
+0x035A,Medicom Innovation Partner a/s
+0x035B,Matrix Inc.
+0x035C,Eaton Corporation
 0x035D,KYS
-0x035E,"Naya Health, Inc. "
-0x035F,Acromag 
-0x0360,Insulet Corporation 
-0x0361,Wellinks Inc. 
+0x035E,"Naya Health, Inc."
+0x035F,Acromag
+0x0360,Insulet Corporation
+0x0361,Wellinks Inc.
 0x0362,ON Semiconductor
-0x0363,FREELAP SA 
-0x0364,Favero Electronics Srl 
-0x0365,BioMech Sensor LLC 
+0x0363,FREELAP SA
+0x0364,Favero Electronics Srl
+0x0365,BioMech Sensor LLC
 0x0366,BOLTT Sports technologies Private limited
-0x0367,Saphe International 
-0x0368,Metormote AB 
-0x0369,littleBits 
-0x036A,SetPoint Medical 
-0x036B,BRControls Products BV 
-0x036C,Zipcar 
-0x036D,AirBolt Pty Ltd 
-0x036E,KeepTruckin Inc 
-0x036F,"Motiv, Inc. "
-0x0370,Wazombi Labs OÜ 
+0x0367,Saphe International
+0x0368,Metormote AB
+0x0369,littleBits
+0x036A,SetPoint Medical
+0x036B,BRControls Products BV
+0x036C,Zipcar
+0x036D,AirBolt Pty Ltd
+0x036E,KeepTruckin Inc
+0x036F,"Motiv, Inc."
+0x0370,Wazombi Labs OÜ
 0x0371,ORBCOMM
 0x0372,"Nixie Labs, Inc."
 0x0373,AppNearMe Ltd
@@ -953,7 +953,7 @@
 0x03B8,A-Safe Limited
 0x03B9,FREDERIQUE CONSTANT SA
 0x03BA,Maxscend Microelectronics Company Limited
-0x03BB,Abbott 
+0x03BB,Abbott
 0x03BC,ASB Bank Ltd
 0x03BD,amadas
 0x03BE,"Applied Science, Inc."
@@ -1108,7 +1108,7 @@
 0x0453,GreenPeak Technologies BV
 0x0454,Sphinx Electronics GmbH & Co KG
 0x0455,Atomation
-0x0456,Nemik Consulting Inc 
+0x0456,Nemik Consulting Inc
 0x0457,RF INNOVATION
 0x0458,"Mini Solution Co., Ltd."
 0x0459,"Lumenetix, Inc"
@@ -1252,8 +1252,8 @@
 0x04E3,Under Armour
 0x04E4,Woodenshark
 0x04E5,Avack Oy
-0x04E6,"Smart Solution Technology, Inc. "
-0x04E7,REHABTRONICS INC. 
+0x04E6,"Smart Solution Technology, Inc."
+0x04E7,REHABTRONICS INC.
 0x04E8,STABILO International
 0x04E9,Busch Jaeger Elektro GmbH
 0x04EA,"Pacific Bioscience Laboratories, Inc"
@@ -1315,7 +1315,7 @@
 0x0522,"NS Tech, Inc."
 0x0523,"MTG Co., Ltd."
 0x0524,"Hangzhou iMagic Technology Co., Ltd"
-0x0525,"HONGKONG NANO IC TECHNOLOGIES CO., LIMITED"
+0x0525,"HONGKONG NANO IC TECHNOLOGIES  CO., LIMITED"
 0x0526,Honeywell International Inc.
 0x0527,Albrecht JUNG
 0x0528,Lunera Lighting Inc.
@@ -1453,7 +1453,7 @@
 0x05AC,"GoerTek Dynaudio Co., Ltd."
 0x05AD,INIA
 0x05AE,"CARMATE MFG.CO.,LTD"
-0x05AF,ONvocal
+0x05AF,"OV LOOP, INC. (formerly ONvocal)"
 0x05B0,NewTec GmbH
 0x05B1,Medallion Instrumentation Systems
 0x05B2,CAREL INDUSTRIES S.P.A.
@@ -1549,7 +1549,7 @@
 0x060C,Vuzix Corporation
 0x060D,TDK Corporation
 0x060E,Blueair AB
-0x060F,Signify Netherlands 
+0x060F,Signify Netherlands
 0x0610,ADH GUARDIAN USA LLC
 0x0611,Beurer GmbH
 0x0612,Playfinity AS
@@ -1610,7 +1610,7 @@
 0x0649,"Ryeex Technology Co.,Ltd."
 0x064A,"Open Research Institute, Inc."
 0x064B,"Scale-Tec, Ltd"
-0x064C,Zumtobel Group AG 
+0x064C,Zumtobel Group AG
 0x064D,iLOQ Oy
 0x064E,KRUXWorks Technologies Private Limited
 0x064F,Digital Matter Pty Ltd
@@ -1758,7 +1758,7 @@
 0x06DD,Intellithings Ltd.
 0x06DE,"Navcast, Inc."
 0x06DF,"Hubbell Lighting, Inc."
-0x06E0,Avaya 
+0x06E0,Avaya
 0x06E1,Milestone AV Technologies LLC
 0x06E2,Alango Technologies Ltd
 0x06E3,Spinlock Ltd
@@ -1983,7 +1983,7 @@
 0x07BF,REGULA Ltd.
 0x07C0,Biral AG
 0x07C1,A.W. Chesterton Company
-0x07C2,Radinn AB 
+0x07C2,Radinn AB
 0x07C3,"CIMTechniques, Inc."
 0x07C4,Johnson Health Tech NA
 0x07C5,"June Life, Inc."
@@ -1997,7 +1997,7 @@
 0x07CD,Smart Wave Technologies Canada Inc
 0x07CE,"Shanghai Top-Chip Microelectronics Tech. Co., LTD"
 0x07CF,"NeoSensory, Inc."
-0x07D0,"Hangzhou Tuya Information Technology Co., Ltd"
+0x07D0,"Hangzhou Tuya Information  Technology Co., Ltd"
 0x07D1,"Shanghai Panchip Microelectronics Co., Ltd"
 0x07D2,React Accessibility Limited
 0x07D3,"LIVNEX Co.,Ltd."
@@ -2239,3 +2239,208 @@
 0x08BF,"SIRC Co., Ltd."
 0x08C0,Accent Advanced Systems SLU
 0x08C1,Rayden.Earth LTD
+0x08C2,Lindinvent AB
+0x08C3,CHIPOLO d.o.o.
+0x08C4,"CellAssist, LLC"
+0x08C5,J. Wagner GmbH
+0x08C6,Integra Optics Inc
+0x08C7,Monadnock Systems Ltd.
+0x08C8,Liteboxer Technologies Inc.
+0x08C9,Noventa AG
+0x08CA,"Nubia Technology Co.,Ltd."
+0x08CB,JT INNOVATIONS LIMITED
+0x08CC,"TGM TECHNOLOGY CO., LTD."
+0x08CD,ifly
+0x08CE,ZIMI CORPORATION
+0x08CF,betternotstealmybike UG (with limited liability)
+0x08D0,ESTOM Infotech Kft.
+0x08D1,Sensovium Inc.
+0x08D2,Virscient Limited
+0x08D3,"Novel Bits, LLC"
+0x08D4,"ADATA Technology Co., LTD."
+0x08D5,KEYes
+0x08D6,Nome Oy
+0x08D7,Inovonics Corp
+0x08D8,WARES
+0x08D9,Pointr Labs Limited
+0x08DA,Miridia Technology Incorporated
+0x08DB,Tertium Technology
+0x08DC,"SHENZHEN AUKEY E BUSINESS CO., LTD"
+0x08DD,code-Q
+0x08DE,Tyco Electronics Corporation a TE Connectivity Ltd Company
+0x08DF,"IRIS OHYAMA CO.,LTD."
+0x08E0,Philia Technology
+0x08E1,KOZO KEIKAKU ENGINEERING Inc.
+0x08E2,Shenzhen Simo Technology co. LTD
+0x08E3,"Republic Wireless, Inc."
+0x08E4,Rashidov ltd
+0x08E5,Crowd Connected Ltd
+0x08E6,Eneso Tecnologia de Adaptacion S.L.
+0x08E7,Barrot Technology Limited
+0x08E8,Naonext
+0x08E9,Taiwan Intelligent Home Corp.
+0x08EA,"COWBELL ENGINEERING CO.,LTD."
+0x08EB,"Beijing Big Moment Technology Co., Ltd."
+0x08EC,Denso Corporation
+0x08ED,IMI Hydronic Engineering International SA
+0x08EE,ASKEY
+0x08EF,"Cumulus Digital Systems, Inc"
+0x08F0,"Joovv, Inc."
+0x08F1,The L.S. Starrett Company
+0x08F2,Microoled
+0x08F3,PSP - Pauli Services & Products GmbH
+0x08F4,Kodimo Technologies Company Limited
+0x08F5,Tymtix Technologies Private Limited
+0x08F6,Dermal Photonics Corporation
+0x08F7,MTD Products Inc & Affiliates
+0x08F8,instagrid GmbH
+0x08F9,Spacelabs Medical Inc.
+0x08FA,Troo Corporation
+0x08FB,Darkglass Electronics Oy
+0x08FC,Hill-Rom
+0x08FD,"BioIntelliSense, Inc."
+0x08FE,Ketronixs Sdn Bhd
+0x0904,SUNCORPORATION
+0x0905,Yandex Services AG
+0x0906,Scope Logistical Solutions
+0x0907,"User Hello, LLC"
+0x0908,Pinpoint Innovations Limited
+0x0909,"70mai Co.,Ltd."
+0x090A,"Zhuhai Hoksi Technology CO.,LTD"
+0x090B,"EMBR labs, INC"
+0x090C,"Radiawave Technologies Co.,Ltd."
+0x090D,IOT Invent GmbH
+0x090E,OPTIMUSIOT TECH LLP
+0x090F,VC Inc.
+0x0910,"ASR Microelectronics (Shanghai) Co., Ltd."
+0x0911,Douglas Lighting Controls Inc.
+0x0912,Nerbio Medical Software Platforms Inc
+0x0913,"Braveheart Wireless, Inc."
+0x0914,INEO-SENSE
+0x0915,"Honda Motor Co., Ltd."
+0x0916,Ambient Sensors LLC
+0x0917,"ASR Microelectronics(ShenZhen)Co., Ltd."
+0x0918,Technosphere Labs Pvt. Ltd.
+0x0919,NO SMD LIMITED
+0x091A,Albertronic BV
+0x091B,"Luminostics, Inc."
+0x091C,Oblamatik AG
+0x091D,"Innokind, Inc."
+0x091E,"Melbot Studios, Sociedad Limitada"
+0x091F,Myzee Technology
+0x0920,Omnisense Limited
+0x0921,KAHA PTE. LTD.
+0x0922,"Shanghai MXCHIP Information Technology Co., Ltd."
+0x0923,JSB TECH PTE LTD
+0x0924,Fundacion Tecnalia Research and Innovation
+0x0925,Yukai Engineering Inc.
+0x0926,Gooligum Technologies Pty Ltd
+0x0927,ROOQ GmbH
+0x0928,AiRISTA
+0x0929,"Qingdao Haier Technology Co., Ltd."
+0x092A,Sappl Verwaltungs- und Betriebs GmbH
+0x092B,TekHome
+0x092C,PCI Private Limited
+0x092D,"Leggett & Platt, Incorporated"
+0x092E,PS GmbH
+0x092F,C.O.B.O. SpA
+0x0930,James Walker RotaBolt Limited
+0x0931,"BREATHINGS Co., Ltd."
+0x0932,"BarVision, LLC"
+0x0933,SRAM
+0x0934,KiteSpring Inc.
+0x0935,"Reconnect, Inc."
+0x0936,Elekon AG
+0x0937,RealThingks GmbH
+0x0938,"Henway Technologies, LTD."
+0x0939,"ASTEM Co.,Ltd."
+0x093A,"LinkedSemi Microelectronics (Xiamen) Co., Ltd"
+0x093B,ENSESO LLC
+0x093C,Xenoma Inc.
+0x093D,Adolf Wuerth GmbH & Co KG
+0x093E,"Catalyft Labs, Inc."
+0x093F,JEPICO Corporation
+0x0940,Hero Workout GmbH
+0x0941,"Rivian Automotive, LLC"
+0x0942,TRANSSION HOLDINGS LIMITED
+0x0943,Inovonics Corp.
+0x0944,Agitron d.o.o.
+0x0945,"Globe (Jiangsu) Co., Ltd"
+0x0946,AMC International Alfa Metalcraft Corporation AG
+0x0947,First Light Technologies Ltd.
+0x0948,Wearable Link Limited
+0x0949,Metronom Health Europe
+0x094A,"Zwift, Inc."
+0x094B,Kindeva Drug Delivery L.P.
+0x094C,GimmiSys GmbH
+0x094D,tkLABS INC.
+0x094E,"PassiveBolt, Inc."
+0x094F,"Limited Liability Company ""Mikrotikls"""
+0x0950,Capetech
+0x0951,PPRS
+0x0952,Apptricity Corporation
+0x0953,"LogiLube, LLC"
+0x0954,Julbo
+0x0955,Breville Group
+0x0956,Kerlink
+0x0957,Ohsung Electronics
+0x0958,ZTE Corporation
+0x0959,"HerdDogg, Inc"
+0x095A,"Selekt Bilgisayar, lletisim Urunleri lnsaat Sanayi ve Ticaret Limited Sirketi"
+0x095B,Lismore Instruments Limited
+0x095C,"LogiLube, LLC"
+0x095D,ETC
+0x095E,BioEchoNet inc.
+0x095F,NUANCE HEARING LTD
+0x0960,Sena Technologies Inc.
+0x0961,Linkura AB
+0x0962,GL Solutions K.K.
+0x0963,Moonbird BV
+0x0964,Countrymate Technology Limited
+0x0965,Asahi Kasei Corporation
+0x0966,"PointGuard, LLC"
+0x0967,Neo Materials and Consulting Inc.
+0x0968,"Actev Motors, Inc."
+0x0969,"Woan Technology (Shenzhen) Co., Ltd."
+0x096A,"dricos, Inc."
+0x096B,Guide ID B.V.
+0x096C,9374-7319 Quebec inc
+0x096D,"Gunwerks, LLC"
+0x096E,"Band Industries, inc."
+0x096F,"Lund Motion Products, Inc."
+0x0970,IBA Dosimetry GmbH
+0x0971,GA
+0x0972,"Closed Joint Stock Company ""Zavod Flometr"" (""Zavod Flometr"" CJSC)"
+0x0973,Popit Oy
+0x0974,ABEYE
+0x0975,"BlueIOT(Beijing) Technology Co.,Ltd"
+0x0976,Fauna Audio GmbH
+0x0977,TOYOTA motor corporation
+0x0978,ZifferEins GmbH & Co. KG
+0x0979,BIOTRONIK SE & Co. KG
+0x097A,CORE CORPORATION
+0x097B,CTEK Sweden AB
+0x097C,"Thorley Industries, LLC"
+0x097D,CLB B.V.
+0x097E,SonicSensory Inc
+0x097F,ISEMAR S.R.L.
+0x0980,"DEKRA TESTING AND CERTIFICATION, S.A.U."
+0x0981,Bernard Krone Holding SE & Co.KG
+0x0982,ELPRO-BUCHS AG
+0x0983,Feedback Sports LLC
+0x0984,TeraTron GmbH
+0x0985,Lumos Health Inc.
+0x0986,"Cello Hill, LLC"
+0x0987,"TSE BRAKES, INC."
+0x0988,BHM-Tech Produktionsgesellschaft m.b.H
+0x0989,WIKA Alexander Wiegand SE & Co.KG
+0x098A,Biovigil
+0x098B,"Mequonic Engineering, S.L."
+0x098C,bGrid B.V.
+0x098D,"C3-WIRELESS, LLC"
+0x098E,ADVEEZ
+0x098F,Aktiebolaget Regin
+0x0990,Anton Paar GmbH
+0x0991,Telenor ASA
+0x0992,Big Kaiser Precision Tooling Ltd
+0x0993,Absolute Audio Labs B.V.
