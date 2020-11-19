@@ -10,7 +10,6 @@ dependencies:
   circle_wave_progress: ^0.0.4
   device_info: ^0.4.2+9
   flutter_ble_lib: ^2.3.0
-  grizzly_io: ^2.2.2
   location: ^3.0.2
   shared_preferences: ^0.5.12+2
 
@@ -22,9 +21,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - vendors.csv
-    - services.csv
-    - characteristics.csv
+    - bluetooth-numbers-database/v1/
 
 flutter_icons:
   android: true

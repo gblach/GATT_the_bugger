@@ -1,22 +1,31 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:grizzly_io/io_loader.dart';
 
 Map<int,String> AsgnVendor = {};
 Map<int,String> AsgnService = {};
 Map<int,String> AsgnCharacteristic = {};
 
 Future<void> assigned_numbers_load() async {
-  for(List data in await parseCsv(await rootBundle.loadString('assets/vendors.csv'))) {
-    AsgnVendor[int.parse(data[0])] = data[1];
+  final vendors = await rootBundle.loadString('bluetooth-numbers-database/v1/company_ids.json');
+  for(final data in jsonDecode(vendors)) {
+    AsgnVendor[data['code']] = data['name'];
   }
 
-  for(List data in await parseCsv(await rootBundle.loadString('assets/services.csv'))) {
-    AsgnService[int.parse(data[0])] = data[1];
+  final services = await rootBundle.loadString('bluetooth-numbers-database/v1/service_uuids.json');
+  for(final data in jsonDecode(services)) {
+    if(data['source'] == 'gss') {
+      final int uuid = int.parse(data['uuid'], radix: 16);
+      AsgnService[uuid] = data['name'];
+    }
   }
 
-  for(List data in await parseCsv(await rootBundle.loadString('assets/characteristics.csv'))) {
-    AsgnCharacteristic[int.parse(data[0])] = data[1];
+  final characteristics = await rootBundle.loadString('bluetooth-numbers-database/v1/characteristic_uuids.json');
+  for(final data in jsonDecode(characteristics)) {
+    if(data['source'] == 'gss') {
+      final int uuid = int.parse(data['uuid'], radix: 16);
+      AsgnCharacteristic[uuid] = data['name'];
+    }
   }
 }
 
