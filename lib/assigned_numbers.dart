@@ -3,8 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 
 Map<int,String> AsgnVendor = {};
-Map<int,String> AsgnService = {};
-Map<int,String> AsgnCharacteristic = {};
+Map<String,String> AsgnService = {};
+Map<String,String> AsgnCharacteristic = {};
+RegExp pattern = RegExp(r'^0000([0-9a-f]{4})-0000-1000-8000-00805f9b34fb$', caseSensitive: false);
 
 Future<void> assigned_numbers_load() async {
   final vendors = await rootBundle.loadString('bluetooth-numbers-database/v1/company_ids.json');
@@ -14,18 +15,12 @@ Future<void> assigned_numbers_load() async {
 
   final services = await rootBundle.loadString('bluetooth-numbers-database/v1/service_uuids.json');
   for(final data in jsonDecode(services)) {
-    if(data['source'] == 'gss') {
-      final int uuid = int.parse(data['uuid'], radix: 16);
-      AsgnService[uuid] = data['name'];
-    }
+    AsgnService[data['uuid']] = data['name'];
   }
 
   final characteristics = await rootBundle.loadString('bluetooth-numbers-database/v1/characteristic_uuids.json');
   for(final data in jsonDecode(characteristics)) {
-    if(data['source'] == 'gss') {
-      final int uuid = int.parse(data['uuid'], radix: 16);
-      AsgnCharacteristic[uuid] = data['name'];
-    }
+    AsgnCharacteristic[data['uuid']] = data['name'];
   }
 }
 
@@ -38,21 +33,17 @@ String vendor_loopup(Uint8List data) {
 }
 
 String service_lookup(String uuid) {
-  RegExp pattern = new RegExp(r'^0000([0-9a-f]{4})-0000-1000-8000-00805f9b34fb$', caseSensitive: false);
   RegExpMatch match = pattern.firstMatch(uuid);
-  if(match != null) {
-    final int id = int.parse(match.group(1), radix: 16);
-    if(AsgnService.containsKey(id)) return AsgnService[id];
-  }
+  if(match != null) uuid = match.group(1);
+  uuid = uuid.toUpperCase();
+  if(AsgnService.containsKey(uuid)) return AsgnService[uuid];
   return null;
 }
 
 String characteristic_lookup(String uuid) {
-  RegExp pattern = new RegExp(r'^0000([0-9a-f]{4})-0000-1000-8000-00805f9b34fb$', caseSensitive: false);
   RegExpMatch match = pattern.firstMatch(uuid);
-  if(match != null) {
-    final int id = int.parse(match.group(1), radix: 16);
-    if(AsgnCharacteristic.containsKey(id)) return AsgnCharacteristic[id];
-  }
+  if(match != null) uuid = match.group(1);
+  uuid = uuid.toUpperCase();
+  if(AsgnCharacteristic.containsKey(uuid)) return AsgnCharacteristic[uuid];
   return null;
 }
