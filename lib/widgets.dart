@@ -52,37 +52,30 @@ Widget loader(String title, String subtitle) {
 }
 
 class HexFormatter extends TextInputFormatter {
-  RegExp filter = RegExp(r"[0-9a-fA-F]");
+  RegExp filter = RegExp(r"[^0-9a-fA-F]+");
+  RegExp hexpair = RegExp(r"([0-9a-fA-F]{2})");
   DataType data_type;
 
   HexFormatter(this.data_type);
 
   formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if(this.data_type == DataType.hex) {
-      int len = newValue.text.length;
-      String last = len > 0 ? newValue.text.substring(len - 1) : '';
+      String newText = newValue.text.replaceAll(filter, '');
+      newText = newText.replaceAllMapped(hexpair, (Match m) => m[1] + ' ');
+      newText = newText.trimRight();
 
+      int offset = newValue.selection.baseOffset;
       if(oldValue.text.length < newValue.text.length) {
-        if(! filter.hasMatch(last)) {
-          return TextEditingValue(
-            text: newValue.text.substring(0, len - 1),
-            selection: TextSelection.collapsed(offset: len - 1),
-          );
-        }
-        if(len % 3 == 0) {
-          return TextEditingValue(
-            text: newValue.text.substring(0, len - 1) + ' ' + newValue.text.substring(len - 1),
-            selection: TextSelection.collapsed(offset: len + 1),
-          );
-        }
+        if(oldValue.text.length == newText.length) offset--;
+        else if(offset % 3 == 0) offset++;
       } else if(oldValue.text.length > newValue.text.length) {
-        if(last == ' ') {
-          return TextEditingValue(
-            text: newValue.text.substring(0, len - 1),
-            selection: TextSelection.collapsed(offset: len - 1),
-          );
-        }
+        if(offset % 3 == 0) offset--;
       }
+
+      return TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: offset),
+      );
     }
 
     return newValue;
