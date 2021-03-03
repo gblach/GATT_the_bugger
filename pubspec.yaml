@@ -8,15 +8,15 @@ dependencies:
   flutter:
     sdk: flutter
   circle_wave_progress: ^0.0.4
-  device_info: ^1.0.0
-  flutter_ble_lib: ^2.3.1
-  location: ^3.1.0
-  shared_preferences: ^0.5.12+4
+  device_info: ^2.0.0
+  flutter_ble_lib: ^2.3.2
+  location: ^3.2.4
+  shared_preferences: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.9.0
 
 flutter:
   uses-material-design: true
