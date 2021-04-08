@@ -37,28 +37,30 @@ class _SrvcState extends State<Srvc> {
   }
 
   Widget build_list() {
-    return ListView.builder(
+    return ListView.separated(
       itemCount: _services.length + 1,
       itemBuilder: build_list_item,
+      separatorBuilder: (BuildContext context, int index) => Divider(height: 0),
     );
   }
 
   Widget build_list_item(BuildContext context, int index) {
     if(index == 0) return infobar(context, 'Services & characteristics');
 
-    String service = service_lookup(_services.keys.elementAt(index - 1).uuid);
+    final Service srvc = _services.keys.elementAt(index - 1);
+    final String srvc_name = service_lookup(srvc.uuid);
 
     List<ListTile> tiles = [
       ListTile(
-        title: Text(_services.keys.elementAt(index - 1).uuid),
-        subtitle: service != null ? Text(service) : null,
+        title: Text(srvc.uuid),
+        subtitle: srvc_name != null ? Text(srvc_name) : null,
         trailing: Text('srv', style: TextStyle(color: Colors.grey)),
       )
     ];
 
     for(Characteristic chrc in _services.values.elementAt(index - 1)) {
-      String characteristic = characteristic_lookup(chrc.uuid);
-      characteristic = characteristic != null ? characteristic + '\n' : '';
+      String chrc_name = characteristic_lookup(chrc.uuid);
+      chrc_name = chrc_name != null ? chrc_name + '\n' : '';
 
       List<String> props = [];
       if(chrc.isWritableWithResponse) props.add('write');
@@ -69,9 +71,9 @@ class _SrvcState extends State<Srvc> {
 
       tiles.add(ListTile(
         title: Text(chrc.uuid, style: TextStyle(fontSize: 15)),
-        subtitle: Text(characteristic + props.join(', '), style: TextStyle(height: 1.4)),
+        subtitle: Text(chrc_name + props.join(', '), style: TextStyle(height: 1.4)),
         trailing: Icon(Icons.chevron_right),
-        isThreeLine: characteristic.length > 0,
+        isThreeLine: chrc_name.length > 0,
         contentPadding: EdgeInsets.only(left: 28, right: 16),
         onTap: () => _goto_character(chrc),
       ));
@@ -79,7 +81,7 @@ class _SrvcState extends State<Srvc> {
 
     return Card(
       child: Column(children: tiles),
-      margin: EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: index < _services.length ? 16 : 0),
       shape: RoundedRectangleBorder(),
     );
   }
