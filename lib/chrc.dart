@@ -14,7 +14,7 @@ class Chrc extends StatefulWidget {
 }
 
 class _ChrcState extends State<Chrc> {
-  ScanResult _result;
+  Peripheral _device;
   Characteristic _chrc;
   DataType _data_type = DataType.hex;
   StreamSubscription<Uint8List> _notify_sub;
@@ -24,9 +24,9 @@ class _ChrcState extends State<Chrc> {
 
   @override
   Future<void> didChangeDependencies() async {
-    if(_result == null || _chrc == null) {
+    if(_device == null || _chrc == null) {
       List args = ModalRoute.of(context).settings.arguments;
-      _result = args[0];
+      _device = args[0];
       _chrc = args[1];
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,7 +61,7 @@ class _ChrcState extends State<Chrc> {
     }
 
     if(data.length > 0) {
-      _result.peripheral.writeCharacteristic(
+      _device.writeCharacteristic(
         _chrc.service.uuid, _chrc.uuid,
         data, _chrc.isWritableWithResponse
       );
@@ -70,7 +70,7 @@ class _ChrcState extends State<Chrc> {
 
   Future<void> _on_read() async {
     CharacteristicWithValue data =
-      await _result.peripheral.readCharacteristic(_chrc.service.uuid, _chrc.uuid);
+      await _device.readCharacteristic(_chrc.service.uuid, _chrc.uuid);
 
     if(_data_type == DataType.hex) {
       setState(() {
@@ -108,9 +108,7 @@ class _ChrcState extends State<Chrc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_result.peripheral.name ?? _result.peripheral.identifier),
-      ),
+      appBar: AppBar(title: Text(_device.name ?? _device.identifier)),
       body: build_body(),
     );
   }

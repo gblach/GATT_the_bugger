@@ -9,14 +9,14 @@ class Srvc extends StatefulWidget {
 }
 
 class _SrvcState extends State<Srvc> {
-  ScanResult _result;
+  Peripheral _device;
   Map<Service,List<Characteristic>> _services = {};
 
   @override
   Future<void> didChangeDependencies() async {
-    if(_result == null) {
-      _result = ModalRoute.of(context).settings.arguments;
-      for(Service service in await _result.peripheral.services()) {
+    if(_device == null) {
+      _device = ModalRoute.of(context).settings.arguments;
+      for(Service service in await _device.services()) {
         _services[service] = await service.characteristics();
       }
       setState(() => null);
@@ -25,15 +25,13 @@ class _SrvcState extends State<Srvc> {
   }
 
   void _goto_character(Characteristic chrc) {
-    Navigator.pushNamed(context, '/chrc', arguments: [_result, chrc]);
+    Navigator.pushNamed(context, '/chrc', arguments: [_device, chrc]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_result.peripheral.name ?? _result.peripheral.identifier),
-      ),
+      appBar: AppBar(title: Text(_device.name ?? _device.identifier)),
       body: build_list(),
     );
   }

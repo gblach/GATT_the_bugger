@@ -12,10 +12,10 @@ import 'widgets.dart';
 
 enum Connection { connecting, discovering }
 
-class BleDevice {
+class ResultTime {
   ScanResult result;
-  DateTime when;
-  BleDevice(this.result, this.when);
+  DateTime time;
+  ResultTime(this.result, this.time);
 }
 
 void main() => runApp(App());
@@ -40,8 +40,8 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
-  BleManager _bleManager = BleManager();
-  List<BleDevice> _devices = [];
+  final BleManager _bleManager = BleManager();
+  List<ResultTime> _results = [];
   Connection _connection = null;
   StreamSubscription<PeripheralConnectionState> _conn_sub;
   Timer _cleanup_timer;
@@ -61,11 +61,11 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    initStateAsync();
+    init_async();
     super.initState();
   }
 
-  Future<void> initStateAsync() async {
+  Future<void> init_async() async {
     await assigned_numbers_load();
     await _bleManager.createClient();
     _start_scan();
@@ -101,33 +101,33 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
     _bleManager.startPeripheralScan(scanMode: ScanMode.balanced)
       .listen((ScanResult result) {
-        BleDevice device = BleDevice(result, DateTime.now());
-        int index = _devices.indexWhere((dynamic _device) =>
-          _device.result.peripheral.identifier == device.result.peripheral.identifier);
+        final ResultTime result_time = ResultTime(result, DateTime.now());
+        int index = _results.indexWhere((ResultTime _result_time) =>
+          _result_time.result.peripheral.identifier == result_time.result.peripheral.identifier);
 
         setState(() {
-          if(index < 0) _devices.add(device);
-          else _devices[index] = device;
+          if(index < 0) _results.add(result_time);
+          else _results[index] = result_time;
         });
       });
   }
 
   void _cleanup(Timer timer) {
     DateTime limit = DateTime.now().subtract(Duration(seconds: 5));
-    for(int i = _devices.length - 1; i >= 0; i--) {
-      if(_devices[i].when.isBefore(limit)) setState(() => _devices.removeAt(i));
+    for(int i = _results.length - 1; i >= 0; i--) {
+      if(_results[i].time.isBefore(limit)) setState(() => _results.removeAt(i));
     }
   }
 
   Future<void> _stop_scan() async {
-    await _cleanup_timer?.cancel();
     await _bleManager.stopPeripheralScan();
-    setState(() => _devices.clear());
+    await _cleanup_timer?.cancel();
+    setState(() => _results.clear());
   }
 
   Future<void> _restart_scan() async {
     if(Platform.isAndroid) {
-      setState(() => _devices.clear());
+      setState(() => _results.clear());
     } else {
       await _stop_scan();
       _start_scan();
@@ -135,27 +135,27 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   Future<void> _goto_device(int index) async {
-    ScanResult result = _devices[index].result;
+    final Peripheral device = _results[index].result.peripheral;
     _stop_scan();
 
     try {
       setState(() => _connection = Connection.connecting);
-      await result.peripheral.connect(refreshGatt: true, timeout: Duration(seconds: 15));
-      _conn_sub = result.peripheral.observeConnectionState(completeOnDisconnect: true)
+      await device.connect(refreshGatt: true, timeout: Duration(seconds: 15));
+      _conn_sub = device.observeConnectionState(completeOnDisconnect: true)
         .listen((PeripheralConnectionState state) {
           if(state == PeripheralConnectionState.disconnected) {
             Navigator.popUntil(context, ModalRoute.withName('/'));
           }
         });
-      await result.peripheral.requestMtu(251);
+      await device.requestMtu(251);
 
       setState(() => _connection = Connection.discovering);
-      await result.peripheral.discoverAllServicesAndCharacteristics();
+      await device.discoverAllServicesAndCharacteristics();
 
-      Navigator.pushNamed(context, '/srvc', arguments: result).whenComplete(() async {
+      Navigator.pushNamed(context, '/srvc', arguments: device).whenComplete(() async {
         _conn_sub?.cancel();
-        if(await result.peripheral.isConnected()) {
-          result.peripheral.disconnectOrCancelConnection();
+        if(await device.isConnected()) {
+          device.disconnectOrCancelConnection();
         }
         setState(() => _connection = null);
         _start_scan();
@@ -188,7 +188,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         case Connection.discovering: return loader('Connecting ...', 'Wait while discovering services');
       }
     }
-    if(_devices.length == 0) return build_intro();
+    if(_results.length == 0) return build_intro();
     return build_list();
   }
 
@@ -248,7 +248,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   Widget build_list() {
     return RefreshIndicator(
       child: ListView.separated(
-        itemCount: _devices.length + 1,
+        itemCount: _results.length + 1,
         itemBuilder: build_list_item,
         separatorBuilder: (BuildContext context, int index) => Divider(height: 0),
       ),
@@ -259,7 +259,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   Widget build_list_item(BuildContext context, int index) {
     if(index == 0) return infobar(context, 'BLE devices');
 
-    ScanResult result = _devices[index - 1].result;
+    final ScanResult result = _results[index - 1].result;
     String vendor = vendor_loopup(result.advertisementData.manufacturerData);
     vendor = vendor != null ? '\n' + vendor : '';
 
