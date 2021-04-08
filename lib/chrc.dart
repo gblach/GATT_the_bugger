@@ -62,8 +62,8 @@ class _ChrcState extends State<Chrc> {
 
     if(data.length > 0) {
       _result.peripheral.writeCharacteristic(
-          _chrc.service.uuid, _chrc.uuid,
-          data, _chrc.isWritableWithResponse
+        _chrc.service.uuid, _chrc.uuid,
+        data, _chrc.isWritableWithResponse
       );
     }
   }
@@ -155,16 +155,18 @@ class _ChrcState extends State<Chrc> {
   }
 
   Widget build_switch(String label, DataType value) {
-    return FlatButton(
+    return TextButton(
       child: Row(children: [
         Radio(
           value: value,
           groupValue: _data_type,
           onChanged: _on_data_type,
         ),
-        Text(label, style: TextStyle(fontSize: 16)),
+        Text(label),
       ]),
-      padding: EdgeInsets.only(right: 16),
+      style: TextButton.styleFrom(
+        primary: value != _data_type ? Colors.grey[800] : null,
+      ),
       onPressed: () => _on_data_type(value),
     );
   }
@@ -180,9 +182,8 @@ class _ChrcState extends State<Chrc> {
               inputFormatters: [HexFormatter(_data_type)],
             )),
             SizedBox(width: 12),
-            RaisedButton(
+            ElevatedButton(
               child: Text('Write'),
-              textColor: Theme.of(context).textTheme.button.color,
               onPressed: _on_write,
             ),
           ],
@@ -198,9 +199,8 @@ class _ChrcState extends State<Chrc> {
       child: Padding(
         child: Row(
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: Text('Read'),
-              textColor: Theme.of(context).textTheme.button.color,
               onPressed: _on_read,
             ),
             SizedBox(width: 12),
@@ -222,10 +222,11 @@ class _ChrcState extends State<Chrc> {
       child: Padding(
         child: Row(
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: Text('Subscribe'),
-              textColor: Theme.of(context).textTheme.button.color,
-              color: _notify_sub != null ? Colors.indigoAccent[400] : null,
+              style: ElevatedButton.styleFrom(
+                primary: _notify_sub != null ? Colors.indigoAccent[400] : null,
+              ),
               onPressed: _on_notify,
             ),
             SizedBox(width: 12),

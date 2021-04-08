@@ -8,15 +8,17 @@ ThemeData app_theme() {
     brightness: Brightness.light,
     primarySwatch: Colors.indigo,
     scaffoldBackgroundColor: Colors.grey[200],
-    textTheme: TextTheme(
-      button: TextStyle(fontSize: 15, color: Colors.white),
-    ),
     cardTheme: CardTheme(color: Colors.white),
-    buttonTheme: ButtonThemeData(
-      height: 40,
-      minWidth: 100,
-      buttonColor: Colors.indigo[400],
-    ),
+    textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(
+      textStyle: TextStyle(fontSize: 16),
+      primary: Colors.indigo[800],
+      padding: EdgeInsets.only(right: 16),
+    )),
+    elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
+      textStyle: TextStyle(fontSize: 15),
+      primary: Colors.indigo[400],
+      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+    )),
   );
 }
 
