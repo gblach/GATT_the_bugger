@@ -10,8 +10,8 @@ dependencies:
   circle_wave_progress: ^0.0.4
   device_info: ^2.0.0
   flutter_ble_lib: ^2.3.2
-  location: ^3.2.4
-  shared_preferences: ^2.0.3
+  location: ^4.1.1
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
