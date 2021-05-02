@@ -17,7 +17,7 @@ ThemeData app_theme() {
     elevatedButtonTheme: ElevatedButtonThemeData(style: ElevatedButton.styleFrom(
       textStyle: TextStyle(fontSize: 15),
       primary: Colors.indigo[400],
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32),
+      minimumSize: Size(100, 40),
     )),
   );
 }
