@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:circle_wave_progress/circle_wave_progress.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:location/location.dart';
 import 'srvc.dart';
 import 'chrc.dart';
@@ -40,10 +40,11 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
-  final BleManager _bleManager = BleManager();
+  FlutterBlue _flutterBlue = FlutterBlue.instance;
   List<ResultTime> _results = [];
   Connection _connection = null;
-  StreamSubscription<PeripheralConnectionState> _conn_sub;
+  StreamSubscription<ScanResult> _scan_sub;
+  StreamSubscription<BluetoothDeviceState> _conn_sub;
   Timer _cleanup_timer;
 
   @override
@@ -67,7 +68,6 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
   Future<void> init_async() async {
     await assigned_numbers_load();
-    await _bleManager.createClient();
     _start_scan();
   }
 
@@ -75,41 +75,37 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _stop_scan();
-    _bleManager.destroyClient();
     super.dispose();
   }
 
   Future<void> _start_scan() async {
-    if(Platform.isAndroid) {
-      if(await _bleManager.bluetoothState() == BluetoothState.POWERED_OFF) {
-        await _bleManager.enableRadio();
+    if(await _flutterBlue.isOn) {
+      if(Platform.isAndroid) {
+        AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+        if(androidInfo.version.sdkInt >= 23) {
+          Location location = Location();
+          while(await location.hasPermission() != PermissionStatus.granted) {
+            await location.requestPermission();
+          }
+          if(! await location.serviceEnabled()) {
+            await location.requestService();
+          }
+        }
+
+        _cleanup_timer = Timer.periodic(Duration(seconds: 2), _cleanup);
       }
 
-      AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
-      if(androidInfo.version.sdkInt >= 23) {
-        Location location = Location();
-        while(await location.hasPermission() != PermissionStatus.granted) {
-          await location.requestPermission();
-        }
-        if(! await location.serviceEnabled()) {
-          await location.requestService();
-        }
-      }
-
-      _cleanup_timer = Timer.periodic(Duration(seconds: 2), _cleanup);
-    }
-
-    _bleManager.startPeripheralScan(scanMode: ScanMode.balanced)
-      .listen((ScanResult result) {
+      _scan_sub = _flutterBlue.scan(allowDuplicates: true).listen((ScanResult result) {
         final ResultTime result_time = ResultTime(result, DateTime.now());
         int index = _results.indexWhere((ResultTime _result_time) =>
-          _result_time.result.peripheral.identifier == result_time.result.peripheral.identifier);
+          _result_time.result.device.id == result_time.result.device.id);
 
         setState(() {
           if(index < 0) _results.add(result_time);
           else _results[index] = result_time;
         });
       });
+    }
   }
 
   void _cleanup(Timer timer) {
@@ -120,7 +116,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   Future<void> _stop_scan() async {
-    await _bleManager.stopPeripheralScan();
+    _scan_sub?.cancel();
+    await _flutterBlue.stopScan();
     await _cleanup_timer?.cancel();
     setState(() => _results.clear());
   }
@@ -135,36 +132,26 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   Future<void> _goto_device(int index) async {
-    final Peripheral device = _results[index].result.peripheral;
+    final BluetoothDevice device = _results[index].result.device;
     _stop_scan();
 
-    try {
-      setState(() => _connection = Connection.connecting);
-      await device.connect(refreshGatt: true, timeout: Duration(seconds: 15));
-      _conn_sub = device.observeConnectionState(completeOnDisconnect: true)
-        .listen((PeripheralConnectionState state) {
-          if(state == PeripheralConnectionState.disconnected) {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-          }
-        });
-      await device.requestMtu(251);
+    setState(() => _connection = Connection.connecting);
+    await device.connect(autoConnect: false);
+    _conn_sub = device.state.listen((BluetoothDeviceState state) {
+      if(state == BluetoothDeviceState.disconnected) {
+        Navigator.popUntil(context, ModalRoute.withName('/'));
+      }
+    });
 
-      setState(() => _connection = Connection.discovering);
-      await device.discoverAllServicesAndCharacteristics();
+    setState(() => _connection = Connection.discovering);
+    List<BluetoothService> services = await device.discoverServices();
 
-      Navigator.pushNamed(context, '/srvc', arguments: device).whenComplete(() async {
-        _conn_sub?.cancel();
-        if(await device.isConnected()) {
-          device.disconnectOrCancelConnection();
-        }
-        setState(() => _connection = null);
-        _start_scan();
-      });
-    } on BleError {
+    Navigator.pushNamed(context, '/srvc', arguments: [device, services]).whenComplete(() async {
       _conn_sub?.cancel();
+      await device.disconnect();
       setState(() => _connection = null);
       _start_scan();
-    }
+    });
   }
 
   @override
@@ -260,8 +247,12 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     if(index == 0) return infobar(context, 'BLE devices');
 
     final ScanResult result = _results[index - 1].result;
-    String vendor = vendor_loopup(result.advertisementData.manufacturerData);
-    vendor = vendor != null ? '\n' + vendor : '';
+    String vendor = '';
+    if(result.advertisementData.manufacturerData.isNotEmpty) {
+      result.advertisementData.manufacturerData.forEach((int id, _) {
+        vendor = '\n' + vendor_loopup(id);
+      });
+    }
 
     return Card(
       child: ListTile(
@@ -269,16 +260,16 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           children: [Text('${result.rssi.toString()} dB')],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
-        title: result.peripheral.name != null
-          ? Text(result.peripheral.name)
+        title: result.device.name.isNotEmpty
+          ? Text(result.device.name)
           : Text('Unnamed', style: TextStyle(color: Theme.of(context).textTheme.caption.color)),
-        subtitle: Text(result.peripheral.identifier + vendor, style: TextStyle(height: 1.35)),
-        trailing: Column(
+        subtitle: Text(result.device.id.toString() + vendor, style: TextStyle(height: 1.35)),
+        trailing: result.advertisementData.connectable ? Column(
           children: [Icon(Icons.chevron_right)],
           mainAxisAlignment: MainAxisAlignment.center,
-        ),
+        ) : SizedBox(),
         isThreeLine: vendor.length > 0,
-        onTap: () => _goto_device(index - 1),
+        onTap: result.advertisementData.connectable ? () => _goto_device(index - 1) : null,
       ),
       margin: EdgeInsets.all(0),
       shape: RoundedRectangleBorder(),

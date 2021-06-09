@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
@@ -9,29 +9,27 @@ class Srvc extends StatefulWidget {
 }
 
 class _SrvcState extends State<Srvc> {
-  Peripheral _device;
-  Map<Service,List<Characteristic>> _services = {};
+  BluetoothDevice _device;
+  List<BluetoothService> _services;
 
   @override
-  Future<void> didChangeDependencies() async {
-    if(_device == null) {
-      _device = ModalRoute.of(context).settings.arguments;
-      for(Service service in await _device.services()) {
-        _services[service] = await service.characteristics();
-      }
-      setState(() => null);
+  Future<void> didChangeDependencies() {
+    if(_device  == null || _services == null) {
+      List args = ModalRoute.of(context).settings.arguments;
+      _device = args[0];
+      _services = args[1];
     }
     super.didChangeDependencies();
   }
 
-  void _goto_character(Characteristic chrc) {
+  void _goto_character(BluetoothCharacteristic chrc) {
     Navigator.pushNamed(context, '/chrc', arguments: [_device, chrc]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_device.name ?? _device.identifier)),
+      appBar: AppBar(title: Text(_device.name.isNotEmpty ? _device.name : _device.id.toString())),
       body: build_list(),
     );
   }
@@ -47,30 +45,30 @@ class _SrvcState extends State<Srvc> {
   Widget build_list_item(BuildContext context, int index) {
     if(index == 0) return infobar(context, 'Services & characteristics');
 
-    final Service srvc = _services.keys.elementAt(index - 1);
-    final String srvc_name = service_lookup(srvc.uuid);
+    final BluetoothService srvc = _services[index - 1];
+    final String srvc_name = service_lookup(srvc.uuid.toString());
 
     List<ListTile> tiles = [
       ListTile(
-        title: Text(srvc.uuid),
+        title: Text(srvc.uuid.toString()),
         subtitle: srvc_name != null ? Text(srvc_name) : null,
         trailing: Text('srv', style: TextStyle(color: Colors.grey)),
       )
     ];
 
-    for(Characteristic chrc in _services.values.elementAt(index - 1)) {
-      String chrc_name = characteristic_lookup(chrc.uuid);
+    for(BluetoothCharacteristic chrc in _services[index - 1].characteristics) {
+      String chrc_name = characteristic_lookup(chrc.uuid.toString());
       chrc_name = chrc_name != null ? chrc_name + '\n' : '';
 
       List<String> props = [];
-      if(chrc.isWritableWithResponse) props.add('write');
-      if(chrc.isWritableWithoutResponse) props.add('write without response');
-      if(chrc.isReadable) props.add('read');
-      if(chrc.isNotifiable) props.add('notify');
-      if(chrc.isIndicatable) props.add('indicate');
+      if(chrc.properties.write) props.add('write');
+      if(chrc.properties.writeWithoutResponse) props.add('write without response');
+      if(chrc.properties.read) props.add('read');
+      if(chrc.properties.notify) props.add('notify');
+      if(chrc.properties.indicate) props.add('indicate');
 
       tiles.add(ListTile(
-        title: Text(chrc.uuid, style: TextStyle(fontSize: 15)),
+        title: Text(chrc.uuid.toString(), style: TextStyle(fontSize: 15)),
         subtitle: Text(chrc_name + props.join(', '), style: TextStyle(height: 1.4)),
         trailing: Icon(Icons.chevron_right),
         isThreeLine: chrc_name.length > 0,

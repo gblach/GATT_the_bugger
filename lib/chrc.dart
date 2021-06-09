@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_ble_lib/flutter_ble_lib.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
@@ -14,10 +13,10 @@ class Chrc extends StatefulWidget {
 }
 
 class _ChrcState extends State<Chrc> {
-  Peripheral _device;
-  Characteristic _chrc;
+  BluetoothDevice _device;
+  BluetoothCharacteristic _chrc;
   DataType _data_type = DataType.hex;
-  StreamSubscription<Uint8List> _notify_sub;
+  StreamSubscription<List<int>> _notify_sub;
   TextEditingController _write_ctrl = TextEditingController();
   TextEditingController _read_ctrl = TextEditingController();
   TextEditingController _notify_ctrl = TextEditingController();
@@ -48,58 +47,54 @@ class _ChrcState extends State<Chrc> {
   }
 
   Future<void> _on_write() async {
-    Uint8List data;
+    List<int> value = [];
 
     if(_data_type == DataType.hex) {
-      List<int> hex_list = [];
       for(int i=0; i<_write_ctrl.text.length; i+=3) {
-        hex_list.add(int.parse(_write_ctrl.text[i] + _write_ctrl.text[i+1], radix: 16));
+        value.add(int.parse(_write_ctrl.text[i] + _write_ctrl.text[i+1], radix: 16));
       }
-      data = Uint8List.fromList(hex_list);
     } else {
-      data = Uint8List.fromList(_write_ctrl.text.codeUnits);
+      value = Uint8List.fromList(_write_ctrl.text.codeUnits);
     }
 
-    if(data.length > 0) {
-      _device.writeCharacteristic(
-        _chrc.service.uuid, _chrc.uuid,
-        data, _chrc.isWritableWithResponse
-      );
+    if(value.length > 0) {
+      _chrc.write(value, withoutResponse: _chrc.properties.writeWithoutResponse);
     }
   }
 
   Future<void> _on_read() async {
-    CharacteristicWithValue data =
-      await _device.readCharacteristic(_chrc.service.uuid, _chrc.uuid);
+    List<int> value = await _chrc.read();
 
     if(_data_type == DataType.hex) {
       setState(() {
         _read_ctrl.text = '';
-        for(int hex in data.value) {
+        for(int hex in value) {
           _read_ctrl.text += hex.toRadixString(16).padLeft(2, '0').padRight(3);
         }
       });
     } else {
-      setState(() => _read_ctrl.text = String.fromCharCodes(data.value));
+      setState(() => _read_ctrl.text = String.fromCharCodes(value));
     }
   }
 
   Future<void> _on_notify() async {
     if(_notify_sub == null) {
-      _notify_sub = _chrc.monitor().listen((Uint8List data) {
+      _notify_sub = _chrc.value.listen((List<int> value) {
         if(_data_type == DataType.hex) {
           setState(() {
             _notify_ctrl.text = '';
-            for(int hex in data) {
+            for(int hex in value) {
               _notify_ctrl.text += hex.toRadixString(16).padLeft(2, '0').padRight(3);
             }
           });
         } else {
-          setState(() => _notify_ctrl.text = String.fromCharCodes(data));
+          setState(() => _notify_ctrl.text = String.fromCharCodes(value));
         }
       });
+      _chrc.setNotifyValue(true);
       setState(() => null);
     } else {
+      _chrc.setNotifyValue(false);
       await _notify_sub.cancel();
       setState(() => _notify_sub = null);
     }
@@ -108,29 +103,29 @@ class _ChrcState extends State<Chrc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_device.name ?? _device.identifier)),
+      appBar: AppBar(title: Text(_device.name.isNotEmpty ? _device.name : _device.id.toString())),
       body: build_body(),
     );
   }
 
   Widget build_body() {
-    String service = service_lookup(_chrc.service.uuid);
+    String service = service_lookup(_chrc.serviceUuid.toString());
     service = service != null ? '\n' + service : '';
-    String characteristic = characteristic_lookup(_chrc.uuid);
+    String characteristic = characteristic_lookup(_chrc.uuid.toString());
     characteristic = characteristic != null ? '\n' + characteristic : '';
 
     return Column(children: [
       build_switches(),
-      (_chrc.isWritableWithResponse || _chrc.isWritableWithoutResponse) ? build_write() : SizedBox(),
-      _chrc.isReadable ? build_read() : SizedBox(),
-      (_chrc.isNotifiable || _chrc.isIndicatable) ? build_notify() : SizedBox(),
+      (_chrc.properties.write || _chrc.properties.writeWithoutResponse) ? build_write() : SizedBox(),
+      _chrc.properties.read ? build_read() : SizedBox(),
+      (_chrc.properties.notify || _chrc.properties.indicate) ? build_notify() : SizedBox(),
       Expanded(child: SizedBox()),
       Divider(height: 0),
       Card(
         child: Column(children: [
-          infobar(context, 'Service:', _chrc.service.uuid + service),
+          infobar(context, 'Service:', _chrc.serviceUuid.toString() + service),
           Divider(height: 0),
-          infobar(context, 'Characteristic:', _chrc.uuid + characteristic),
+          infobar(context, 'Characteristic:', _chrc.uuid.toString() + characteristic),
         ]),
         margin: EdgeInsets.all(0),
       ),

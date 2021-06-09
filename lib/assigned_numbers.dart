@@ -24,11 +24,8 @@ Future<void> assigned_numbers_load() async {
   }
 }
 
-String vendor_loopup(Uint8List data) {
-  if(data != null) {
-    final int id = data[0] + (data[1] << 8);
-    if(AsgnVendor.containsKey(id)) return AsgnVendor[id];
-  }
+String vendor_loopup(int id) {
+  if(AsgnVendor.containsKey(id)) return AsgnVendor[id];
   return null;
 }
 
