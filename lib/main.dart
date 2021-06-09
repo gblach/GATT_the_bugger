@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:circle_wave_progress/circle_wave_progress.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:location/location.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 import 'srvc.dart';
 import 'chrc.dart';
 import 'assigned_numbers.dart';
@@ -186,18 +187,23 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       children: [
         Stack(
           children: [
-            Material(
-              child: CircleWaveProgress(
-                size: screen.width * .80,
-                borderWidth: 10.0,
-                backgroundColor: Colors.transparent,
-                borderColor: Colors.white,
-                waveColor: Colors.white70,
-                progress: 50,
+            Container(
+              child: Material(
+                child: WaveWidget(
+                  config: CustomConfig(
+                    colors: [Colors.white30, Colors.white70],
+                    durations: [5000, 7500],
+                    heightPercentages: [0.40, 0.40],
+                  ),
+                  size: Size(double.infinity, double.infinity),
+                ),
+                clipBehavior: Clip.antiAlias,
+                color: Colors.grey[200],
+                elevation: 3,
+                shape: CircleBorder(),
               ),
-              elevation: 3,
-              color: Colors.grey[200],
-              shape: CircleBorder(),
+              width: screen.width * .80,
+              height: screen.width * .80,
             ),
             Opacity(
               child: Padding(
