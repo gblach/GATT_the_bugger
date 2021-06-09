@@ -22,8 +22,8 @@ ThemeData app_theme() {
   );
 }
 
-Widget infobar(BuildContext context, String left, [String right]) {
-  TextStyle style = TextStyle(color: Theme.of(context).textTheme.caption.color);
+Widget infobar(BuildContext context, String left, [String? right]) {
+  TextStyle style = TextStyle(color: Theme.of(context).textTheme.caption!.color);
 
   return Container(
     child: Row(
@@ -63,7 +63,7 @@ class HexFormatter extends TextInputFormatter {
   formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     if(this.data_type == DataType.hex) {
       String newText = newValue.text.replaceAll(filter, '');
-      newText = newText.replaceAllMapped(hexpair, (Match m) => m[1] + ' ');
+      newText = newText.replaceAllMapped(hexpair, (Match m) => m[1]! + ' ');
       newText = newText.trimRight();
 
       int offset = newValue.selection.baseOffset;

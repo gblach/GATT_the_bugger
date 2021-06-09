@@ -9,16 +9,14 @@ class Srvc extends StatefulWidget {
 }
 
 class _SrvcState extends State<Srvc> {
-  BluetoothDevice _device;
-  List<BluetoothService> _services;
+  late BluetoothDevice _device;
+  late List<BluetoothService> _services;
 
   @override
-  Future<void> didChangeDependencies() {
-    if(_device  == null || _services == null) {
-      List args = ModalRoute.of(context).settings.arguments;
-      _device = args[0];
-      _services = args[1];
-    }
+  void didChangeDependencies() {
+    List args = ModalRoute.of(context)!.settings.arguments as List;
+    _device = args[0];
+    _services = args[1];
     super.didChangeDependencies();
   }
 
@@ -51,14 +49,14 @@ class _SrvcState extends State<Srvc> {
     List<ListTile> tiles = [
       ListTile(
         title: Text(srvc.uuid.toString()),
-        subtitle: srvc_name != null ? Text(srvc_name) : null,
+        subtitle: srvc_name.isNotEmpty ? Text(srvc_name) : null,
         trailing: Text('srv', style: TextStyle(color: Colors.grey)),
       )
     ];
 
     for(BluetoothCharacteristic chrc in _services[index - 1].characteristics) {
       String chrc_name = characteristic_lookup(chrc.uuid.toString());
-      chrc_name = chrc_name != null ? chrc_name + '\n' : '';
+      if(chrc_name.isNotEmpty) chrc_name += '\n';
 
       List<String> props = [];
       if(chrc.properties.write) props.add('write');
@@ -71,7 +69,7 @@ class _SrvcState extends State<Srvc> {
         title: Text(chrc.uuid.toString(), style: TextStyle(fontSize: 15)),
         subtitle: Text(chrc_name + props.join(', '), style: TextStyle(height: 1.4)),
         trailing: Icon(Icons.chevron_right),
-        isThreeLine: chrc_name.length > 0,
+        isThreeLine: chrc_name.isNotEmpty,
         contentPadding: EdgeInsets.only(left: 28, right: 16),
         onTap: () => _goto_character(chrc),
       ));

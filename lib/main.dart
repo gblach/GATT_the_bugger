@@ -43,14 +43,14 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> with WidgetsBindingObserver {
   FlutterBlue _flutterBlue = FlutterBlue.instance;
   List<ResultTime> _results = [];
-  Connection _connection = null;
-  StreamSubscription<ScanResult> _scan_sub;
-  StreamSubscription<BluetoothDeviceState> _conn_sub;
-  Timer _cleanup_timer;
+  Connection? _connection;
+  StreamSubscription<ScanResult>? _scan_sub;
+  StreamSubscription<BluetoothDeviceState>? _conn_sub;
+  Timer? _cleanup_timer;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(ModalRoute.of(context).isCurrent) {
+    if(ModalRoute.of(context)!.isCurrent) {
       switch(state) {
         case AppLifecycleState.paused: _stop_scan(); break;
         case AppLifecycleState.resumed: _start_scan(); break;
@@ -62,7 +62,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     init_async();
     super.initState();
   }
@@ -74,7 +74,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     _stop_scan();
     super.dispose();
   }
@@ -119,7 +119,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   Future<void> _stop_scan() async {
     _scan_sub?.cancel();
     await _flutterBlue.stopScan();
-    await _cleanup_timer?.cancel();
+    _cleanup_timer?.cancel();
     setState(() => _results.clear());
   }
 
@@ -174,9 +174,10 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       switch(_connection) {
         case Connection.connecting: return loader('Connecting ...', 'Wait while connecting');
         case Connection.discovering: return loader('Connecting ...', 'Wait while discovering services');
+        case null:
       }
     }
-    if(_results.length == 0) return build_intro();
+    if(_results.isEmpty) return build_intro();
     return build_list();
   }
 
@@ -256,7 +257,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     String vendor = '';
     if(result.advertisementData.manufacturerData.isNotEmpty) {
       result.advertisementData.manufacturerData.forEach((int id, _) {
-        vendor = '\n' + vendor_loopup(id);
+        vendor = vendor_loopup(id);
+        if(vendor.isNotEmpty) vendor = '\n' + vendor;
       });
     }
 
@@ -268,13 +270,13 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         ),
         title: result.device.name.isNotEmpty
           ? Text(result.device.name)
-          : Text('Unnamed', style: TextStyle(color: Theme.of(context).textTheme.caption.color)),
+          : Text('Unnamed', style: TextStyle(color: Theme.of(context).textTheme.caption!.color)),
         subtitle: Text(result.device.id.toString() + vendor, style: TextStyle(height: 1.35)),
         trailing: result.advertisementData.connectable ? Column(
           children: [Icon(Icons.chevron_right)],
           mainAxisAlignment: MainAxisAlignment.center,
         ) : SizedBox(),
-        isThreeLine: vendor.length > 0,
+        isThreeLine: vendor.isNotEmpty,
         onTap: result.advertisementData.connectable ? () => _goto_device(index - 1) : null,
       ),
       margin: EdgeInsets.all(0),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 
 Map<int,String> AsgnVendor = {};
@@ -25,22 +24,22 @@ Future<void> assigned_numbers_load() async {
 }
 
 String vendor_loopup(int id) {
-  if(AsgnVendor.containsKey(id)) return AsgnVendor[id];
-  return null;
+  if(AsgnVendor.containsKey(id)) return AsgnVendor[id]!;
+  return '';
 }
 
 String service_lookup(String uuid) {
-  RegExpMatch match = pattern.firstMatch(uuid);
-  if(match != null) uuid = match.group(1);
+  RegExpMatch? match = pattern.firstMatch(uuid);
+  if(match != null) uuid = match.group(1)!;
   uuid = uuid.toUpperCase();
-  if(AsgnService.containsKey(uuid)) return AsgnService[uuid];
-  return null;
+  if(AsgnService.containsKey(uuid)) return AsgnService[uuid]!;
+  return '';
 }
 
 String characteristic_lookup(String uuid) {
-  RegExpMatch match = pattern.firstMatch(uuid);
-  if(match != null) uuid = match.group(1);
+  RegExpMatch? match = pattern.firstMatch(uuid);
+  if(match != null) uuid = match.group(1)!;
   uuid = uuid.toUpperCase();
-  if(AsgnCharacteristic.containsKey(uuid)) return AsgnCharacteristic[uuid];
-  return null;
+  if(AsgnCharacteristic.containsKey(uuid)) return AsgnCharacteristic[uuid]!;
+  return '';
 }

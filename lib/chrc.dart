@@ -13,37 +13,35 @@ class Chrc extends StatefulWidget {
 }
 
 class _ChrcState extends State<Chrc> {
-  BluetoothDevice _device;
-  BluetoothCharacteristic _chrc;
+  late BluetoothDevice _device;
+  late BluetoothCharacteristic _chrc;
   DataType _data_type = DataType.hex;
-  StreamSubscription<List<int>> _notify_sub;
+  StreamSubscription<List<int>>? _notify_sub;
   TextEditingController _write_ctrl = TextEditingController();
   TextEditingController _read_ctrl = TextEditingController();
   TextEditingController _notify_ctrl = TextEditingController();
 
   @override
   Future<void> didChangeDependencies() async {
-    if(_device == null || _chrc == null) {
-      List args = ModalRoute.of(context).settings.arguments;
-      _device = args[0];
-      _chrc = args[1];
-
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      setState(() => _data_type = DataType.values[prefs.getInt('data_type') ?? 0]);
-    }
+    List args = ModalRoute.of(context)!.settings.arguments as List;
+    _device = args[0];
+    _chrc = args[1];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() => _data_type = DataType.values[prefs.getInt('data_type') ?? 0]);
     super.didChangeDependencies();
   }
 
   @override
-  Future<void> dispose() async {
+  void dispose() {
+    _chrc.setNotifyValue(false);
     _notify_sub?.cancel();
     super.dispose();
   }
 
-  Future<void> _on_data_type(DataType value) async {
-    setState(() => _data_type = value);
+  Future<void> _on_data_type(DataType? value) async {
+    setState(() => _data_type = value!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('data_type', value.index);
+    prefs.setInt('data_type', value!.index);
   }
 
   Future<void> _on_write() async {
@@ -57,7 +55,7 @@ class _ChrcState extends State<Chrc> {
       value = Uint8List.fromList(_write_ctrl.text.codeUnits);
     }
 
-    if(value.length > 0) {
+    if(value.isNotEmpty) {
       _chrc.write(value, withoutResponse: _chrc.properties.writeWithoutResponse);
     }
   }
@@ -95,7 +93,7 @@ class _ChrcState extends State<Chrc> {
       setState(() => null);
     } else {
       _chrc.setNotifyValue(false);
-      await _notify_sub.cancel();
+      _notify_sub?.cancel();
       setState(() => _notify_sub = null);
     }
   }
@@ -110,9 +108,9 @@ class _ChrcState extends State<Chrc> {
 
   Widget build_body() {
     String service = service_lookup(_chrc.serviceUuid.toString());
-    service = service != null ? '\n' + service : '';
+    if(service.isNotEmpty) service = '\n' + service;
     String characteristic = characteristic_lookup(_chrc.uuid.toString());
-    characteristic = characteristic != null ? '\n' + characteristic : '';
+    if(characteristic.isNotEmpty) characteristic = '\n' + characteristic;
 
     return Column(children: [
       build_switches(),
