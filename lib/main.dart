@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:location/location.dart';
 import 'package:wave/config.dart';
@@ -41,7 +42,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> with WidgetsBindingObserver {
-  FlutterBlue _flutterBlue = FlutterBlue.instance;
+  static const platform = const MethodChannel('pl.blach.gatt_the_bugger/native');
   List<ResultTime> _results = [];
   Connection? _connection;
   StreamSubscription<ScanResult>? _scan_sub;
@@ -80,33 +81,36 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   Future<void> _start_scan() async {
-    if(await _flutterBlue.isOn) {
-      if(Platform.isAndroid) {
-        AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
-        if(androidInfo.version.sdkInt >= 23) {
-          Location location = Location();
-          while(await location.hasPermission() != PermissionStatus.granted) {
-            await location.requestPermission();
-          }
-          if(! await location.serviceEnabled()) {
-            await location.requestService();
-          }
-        }
-
-        _cleanup_timer = Timer.periodic(Duration(seconds: 2), _cleanup);
+    if(Platform.isAndroid) {
+      if(! await FlutterBlue.instance.isOn) {
+        await platform.invokeMethod('btenable');
+        while(! await FlutterBlue.instance.isOn);
       }
 
-      _scan_sub = _flutterBlue.scan(allowDuplicates: true).listen((ScanResult result) {
-        final ResultTime result_time = ResultTime(result, DateTime.now());
-        int index = _results.indexWhere((ResultTime _result_time) =>
-          _result_time.result.device.id == result_time.result.device.id);
+      AndroidDeviceInfo androidInfo = await DeviceInfoPlugin().androidInfo;
+      if(androidInfo.version.sdkInt >= 23) {
+        Location location = Location();
+        while(await location.hasPermission() != PermissionStatus.granted) {
+          await location.requestPermission();
+        }
+        if(! await location.serviceEnabled()) {
+          await location.requestService();
+        }
+      }
 
-        setState(() {
-          if(index < 0) _results.add(result_time);
-          else _results[index] = result_time;
-        });
-      });
+      _cleanup_timer = Timer.periodic(Duration(seconds: 2), _cleanup);
     }
+
+    _scan_sub = FlutterBlue.instance.scan(allowDuplicates: true).listen((ScanResult result) {
+      final ResultTime result_time = ResultTime(result, DateTime.now());
+      int index = _results.indexWhere((ResultTime _result_time) =>
+        _result_time.result.device.id == result_time.result.device.id);
+
+      setState(() {
+        if(index < 0) _results.add(result_time);
+        else _results[index] = result_time;
+      });
+    });
   }
 
   void _cleanup(Timer timer) {
@@ -118,8 +122,8 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
   Future<void> _stop_scan() async {
     _scan_sub?.cancel();
-    await _flutterBlue.stopScan();
     _cleanup_timer?.cancel();
+    await FlutterBlue.instance.stopScan();
     setState(() => _results.clear());
   }
 
