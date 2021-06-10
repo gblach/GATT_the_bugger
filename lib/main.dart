@@ -7,12 +7,13 @@ import 'package:flutter_blue/flutter_blue.dart';
 import 'package:location/location.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'srvc.dart';
-import 'chrc.dart';
+import 'device.dart';
+import 'globals.dart';
+import 'characteristic.dart';
 import 'assigned_numbers.dart';
 import 'widgets.dart';
 
-enum Connection { connecting, discovering }
+enum ConnStage { connecting, discovering }
 
 class ResultTime {
   ScanResult result;
@@ -28,8 +29,8 @@ class App extends StatelessWidget {
       title: 'GATT the bugger',
       home: Main(),
       routes: {
-        '/srvc': (BuildContext context) => Srvc(),
-        '/chrc': (BuildContext context) => Chrc(),
+        '/device': (BuildContext context) => Device(),
+        '/characteristic': (BuildContext context) => Characteristic(),
       },
       theme: app_theme(),
     );
@@ -44,9 +45,8 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> with WidgetsBindingObserver {
   static const platform = const MethodChannel('pl.blach.gatt_the_bugger/native');
   List<ResultTime> _results = [];
-  Connection? _connection;
+  ConnStage? _conn_stage;
   StreamSubscription<ScanResult>? _scan_sub;
-  StreamSubscription<BluetoothDeviceState>? _conn_sub;
   Timer? _cleanup_timer;
 
   @override
@@ -137,10 +137,11 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
   }
 
   Future<void> _goto_device(int index) async {
-    final BluetoothDevice device = _results[index].result.device;
+    late StreamSubscription<BluetoothDeviceState> _conn_sub;
+    device = _results[index].result.device;
     _stop_scan();
 
-    setState(() => _connection = Connection.connecting);
+    setState(() => _conn_stage = ConnStage.connecting);
     await device.connect(autoConnect: false);
     _conn_sub = device.state.listen((BluetoothDeviceState state) {
       if(state == BluetoothDeviceState.disconnected) {
@@ -148,13 +149,13 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
       }
     });
 
-    setState(() => _connection = Connection.discovering);
-    List<BluetoothService> services = await device.discoverServices();
+    setState(() => _conn_stage = ConnStage.discovering);
+    services = await device.discoverServices();
 
-    Navigator.pushNamed(context, '/srvc', arguments: [device, services]).whenComplete(() async {
-      _conn_sub?.cancel();
+    Navigator.pushNamed(context, '/device').whenComplete(() async {
+      _conn_sub.cancel();
       await device.disconnect();
-      setState(() => _connection = null);
+      setState(() => _conn_stage = null);
       _start_scan();
     });
   }
@@ -166,26 +167,27 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
         title: Text('GATT the bugger'),
         actions: [IconButton(
           icon: Icon(Icons.refresh),
-          onPressed: _connection == null ? _restart_scan : null,
+          onPressed: _conn_stage == null ? _restart_scan : null,
         )],
       ),
-      body: build_body(),
+      body: _build_body(),
     );
   }
 
-  Widget build_body() {
-    if(_connection != null) {
-      switch(_connection) {
-        case Connection.connecting: return loader('Connecting ...', 'Wait while connecting');
-        case Connection.discovering: return loader('Connecting ...', 'Wait while discovering services');
-        case null:
-      }
+  Widget _build_body() {
+    switch(_conn_stage) {
+      case ConnStage.connecting:
+        return loader('Connecting ...', 'Wait while connecting');
+
+      case ConnStage.discovering:
+        return loader('Connecting ...', 'Wait while discovering services');
+
+      case null:
+        return _results.isEmpty ? _build_intro() : _build_list();
     }
-    if(_results.isEmpty) return build_intro();
-    return build_list();
   }
 
-  Widget build_intro() {
+  Widget _build_intro() {
     final screen = MediaQuery.of(context).size;
 
     return Column(
@@ -243,25 +245,25 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     );
   }
 
-  Widget build_list() {
+  Widget _build_list() {
     return RefreshIndicator(
       child: ListView.separated(
         itemCount: _results.length + 1,
-        itemBuilder: build_list_item,
+        itemBuilder: _build_list_item,
         separatorBuilder: (BuildContext context, int index) => Divider(height: 0),
       ),
       onRefresh: _restart_scan,
     );
   }
 
-  Widget build_list_item(BuildContext context, int index) {
-    if(index == 0) return infobar(context, 'BLE devices');
+  Widget _build_list_item(BuildContext context, int index) {
+    if(index == 0) return infobar(context, 'BLE devices', null, Brightness.dark);
 
     final ScanResult result = _results[index - 1].result;
     String vendor = '';
     if(result.advertisementData.manufacturerData.isNotEmpty) {
       result.advertisementData.manufacturerData.forEach((int id, _) {
-        vendor = vendor_loopup(id);
+        vendor = vendor_lookup(id);
         if(vendor.isNotEmpty) vendor = '\n' + vendor;
       });
     }
@@ -281,7 +283,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
         ) : SizedBox(),
         isThreeLine: vendor.isNotEmpty,
-        onTap: result.advertisementData.connectable ? () => _goto_device(index - 1) : null,
+        onTap: result.advertisementData.connectable ? () => _goto_device(index-1) : null,
       ),
       margin: EdgeInsets.all(0),
       shape: RoundedRectangleBorder(),

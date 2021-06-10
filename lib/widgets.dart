@@ -22,8 +22,22 @@ ThemeData app_theme() {
   );
 }
 
-Widget infobar(BuildContext context, String left, [String? right]) {
-  TextStyle style = TextStyle(color: Theme.of(context).textTheme.caption!.color);
+Widget infobar(BuildContext context, String left,
+  [String? right, Brightness brightness=Brightness.light]) {
+  late TextStyle style;
+  late Color background;
+
+  switch(brightness) {
+    case Brightness.light:
+      style = TextStyle(color: Theme.of(context).textTheme.caption!.color);
+      background = Theme.of(context).cardTheme.color!;
+      break;
+
+    case Brightness.dark:
+      style = TextStyle(color: Colors.grey[100]);
+      background = Colors.indigo[600]!;
+      break;
+  }
 
   return Container(
     child: Row(
@@ -33,7 +47,7 @@ Widget infobar(BuildContext context, String left, [String? right]) {
       ],
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
     ),
-    color: Theme.of(context).cardTheme.color,
+    color: background,
     padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
   );
 }
@@ -54,8 +68,8 @@ Widget loader(String title, String subtitle) {
 }
 
 class HexFormatter extends TextInputFormatter {
-  RegExp filter = RegExp(r"[^0-9a-fA-F]+");
-  RegExp hexpair = RegExp(r"([0-9a-fA-F]{2})");
+  final RegExp filter = RegExp(r"[^0-9a-fA-F]+");
+  final RegExp hexpair = RegExp(r"([0-9a-fA-F]{2})");
   DataType data_type;
 
   HexFormatter(this.data_type);
