@@ -151,6 +151,7 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
 
     setState(() => _conn_stage = ConnStage.discovering);
     services = await device.discoverServices();
+    await device.requestMtu(65);
 
     Navigator.pushNamed(context, '/device').whenComplete(() async {
       _conn_sub.cancel();
