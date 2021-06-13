@@ -150,16 +150,17 @@ class _MainState extends State<Main> with WidgetsBindingObserver {
     });
 
     setState(() => _conn_stage = ConnStage.discovering);
-    await device.requestMtu(251);
-    sleep(Duration(milliseconds: 500));
     services = await device.discoverServices();
+    await device.requestMtu(251);
 
-    Navigator.pushNamed(context, '/device').whenComplete(() async {
-      _conn_sub.cancel();
-      await device.disconnect();
-      setState(() => _conn_stage = null);
-      _start_scan();
-    });
+    Future.delayed(Duration(milliseconds: 500), () =>
+      Navigator.pushNamed(context, '/device').whenComplete(() async {
+        _conn_sub.cancel();
+        await device.disconnect();
+        setState(() => _conn_stage = null);
+        _start_scan();
+      })
+    );
   }
 
   @override
